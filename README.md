@@ -1,66 +1,72 @@
-# Telegram Bot
+# CalendarB0t 📅🤖
 
-## Giới thiệu
-Đây là một Telegram bot được phát triển bằng Python sử dụng thư viện `python-telegram-bot`. Bot có thể xử lý tin nhắn, lệnh và nhắc nhở sự kiện tự động.
+`CalendarB0t` là một Telegram bot được tích hợp với Google Calendar API để quản lý và nhắc nhở các sự kiện. Bot hỗ trợ kiểm tra sự kiện trong ngày, trong tuần, và tự động gửi thông báo nhắc nhở các sự kiện sắp diễn ra.
 
-## Tính năng
-- Tự động nhắc nhở các sự kiện vào **9h sáng** và **9h tối** mỗi ngày.
-- Danh sách các sự kiện trong ngày và trong tuần.
-- Xử lý lệnh cơ bản:
-  - `/check` - Kiểm tra các task trong ngày.
-  - `/listtasks` - Kiểm tra toàn bộ task trong tuần.
-- Hỗ trợ API bên thứ ba để lấy dữ liệu (ví dụ: thời tiết, tin tức, v.v.).
-- Lưu trữ và quản lý thông tin người dùng.
+## 🛠 Tính năng
 
-## Cài đặt
-### 1. Clone repository
+1. **Kiểm tra sự kiện trong ngày**:
+   - Lệnh: `/check`
+   - Hiển thị danh sách các sự kiện trong ngày từ tất cả các lịch Google Calendar được kết nối.
+
+2. **Kiểm tra sự kiện trong tuần**:
+   - Lệnh: `/checkweek`
+   - Hiển thị danh sách các sự kiện trong 7 ngày tới từ tất cả các lịch Google Calendar.
+
+3. **Nhắc nhở sự kiện tự động**:
+   - Bot tự động gửi thông báo nhắc nhở các sự kiện trong ngày vào lúc:
+     - 9:00 sáng
+     - 9:00 tối
+   - Nhắc nhở các sự kiện sắp diễn ra trước 30 phút.
+
+4. **Hỗ trợ nhiều lịch Google Calendar**:
+   - Bot lấy sự kiện từ tất cả các lịch được liên kết với tài khoản Google của bạn.
+   - Các lịch được phân loại bằng biểu tượng (icon) để dễ nhận biết.
+
+## 🚀 Cách sử dụng
+
+### 1. Cài đặt môi trường
+- Cài đặt các thư viện cần thiết:
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_BOT_REPO.git
-cd YOUR_BOT_REPO
+  pip install python-telegram-bot google-auth google-auth-oauthlib google-api-python-client schedule
 ```
+### 2. Cấu hình Google Calendar API
 
-### 2. Cài đặt môi trường và thư viện cần thiết
-```bash
-pip install -r requirements.txt
-```
+Tạo một dự án trên `Google Cloud Console`.
+Kích hoạt Google Calendar API.
+Tải xuống tệp `credentials.json` và đặt nó trong thư mục dự án.
 
-### 3. Cấu hình Bot
-Tạo file `.env` để lưu token bot:
-```env
-BOT_TOKEN=8153267546:AAFBgSr924OX3yR0yLrsFDtlqf5HRPCybaw
-```
-
+### 3. Cấu hình Telegram Bot
+Tạo một bot trên `BotFather` và lấy `TELEGRAM_TOKEN`.
+Cập nhật `TELEGRAM_TOKEN` và `CHAT_ID` trong tệp `bot_v2.py`.
 ### 4. Chạy bot
-```bash
-python bot.py
+Chạy bot bằng lệnh:
+
+```
+python3 bot_v2.py
 ```
 
-## Cách sử dụng
-- **Bắt đầu bot**: `/start`
-- **Xem hướng dẫn**: `/help`
-- **Kiểm tra các task trong ngày**: `/check`
-- **Kiểm tra toàn bộ task trong tuần**: `/listtasks`
-- **Nhắc nhở tự động**: Mỗi ngày vào **9h sáng** và **9h tối**, bot sẽ gửi danh sách các sự kiện trong ngày và trong tuần.
+### 5. Sử dụng bot trên Telegram
+Gửi các lệnh sau đến bot:
 
-## Công nghệ sử dụng
-- Python
-- `python-telegram-bot`
-- Docker (nếu cần triển khai container)
+- `/check`: Kiểm tra sự kiện trong ngày.
+- `/checkweek`: Kiểm tra sự kiện trong tuần.
 
-## Triển khai
-Bot có thể triển khai trên:
-- **Heroku**
-- **VPS (Ubuntu, Debian, v.v.)**
-- **Docker** (Chạy với `docker-compose`)
+## 📋 Function được sử dụng
 
-## Đóng góp
-Nếu bạn muốn đóng góp cho dự án, hãy mở Pull Request hoặc Issue trên GitHub.
+- get_google_calendar_service(): Xác thực và kết nối với Google Calendar API.
+- get_events_from_all_calendars(time_min, time_max): Lấy danh sách sự kiện từ tất cả các lịch trong khoảng thời gian chỉ định.
+- check_today(): Xử lý lệnh /check để kiểm tra sự kiện trong ngày.
+- check_week(): Xử lý lệnh /checkweek để kiểm tra sự kiện trong tuần.
+- remind_events(): Tự động nhắc nhở sự kiện vào 9:00 sáng và 9:00 tối.
+- remind_upcoming_events(): Nhắc nhở các sự kiện sắp diễn ra trước 30 phút.
 
-## Liên hệ
-- **Tác giả**: YOUR_NAME
-- **Email**: your_email@example.com
-- **Telegram**: @your_username
+🕒 Lịch trình tự động
+- 9:00 sáng: Nhắc nhở sự kiện trong ngày.
+- 9:00 tối: Nhắc nhở sự kiện trong ngày.
+- Mỗi 5 phút: Kiểm tra và nhắc nhở các sự kiện sắp diễn ra.
 
----
-Chúc bạn sử dụng bot vui vẻ! 🚀
+### 📌 Lưu ý
+Đảm bảo tệp credentials.json và token.json được đặt đúng vị trí trong thư mục dự án.
+Bot cần quyền truy cập vào Google Calendar của bạn. Hãy đảm bảo bạn đã cấp quyền khi chạy lần đầu.
 
+### 📧 Author - w0rkkd4t
